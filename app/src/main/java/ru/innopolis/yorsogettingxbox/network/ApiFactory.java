@@ -13,6 +13,7 @@ public class ApiFactory {
     private static OkHttpClient sClient;
 
     private static volatile DocumentsApiService sDocumentsService;
+    private static volatile DealsApiService sDealsService;
 
     private ApiFactory() {
     }
@@ -31,10 +32,25 @@ public class ApiFactory {
         return service;
     }
 
+    @NonNull
+    public static DealsApiService getDealsApiService() {
+        DealsApiService service = sDealsService;
+        if (service == null) {
+            synchronized (ApiFactory.class) {
+                service = sDealsService;
+                if (service == null) {
+                    service = sDealsService = buildRetrofit().create(DealsApiService.class);
+                }
+            }
+        }
+        return service;
+    }
+
     public static void recreate() {
         sClient = null;
         sClient = getClient();
         sDocumentsService = buildRetrofit().create(DocumentsApiService.class);
+        sDealsService = buildRetrofit().create(DealsApiService.class);
     }
 
     @NonNull
