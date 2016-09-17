@@ -10,6 +10,12 @@ public class Deal {
     @SerializedName("Description")
     private String description;
 
+    public Deal(Integer id, String title, String description) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+    }
+
     public Integer getId() {
         return id;
     }

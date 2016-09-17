@@ -75,7 +75,7 @@ public class DocumentsActivity extends AppCompatActivity implements SwipeRefresh
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         String Fpath = data.getDataString();
-        // do somthing...
+
         Toast.makeText(this, " something" + Fpath ,Toast.LENGTH_LONG).show();
 
 
