@@ -2,7 +2,6 @@ package ru.innopolis.yorsogettingxbox.deals;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,23 +11,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import ru.innopolis.yorsogettingxbox.R;
 import ru.innopolis.yorsogettingxbox.common.DividerItemDecoration;
 import ru.innopolis.yorsogettingxbox.models.Deal;
-import ru.innopolis.yorsogettingxbox.network.ApiFactory;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import timber.log.Timber;
-import ru.innopolis.yorsogettingxbox.models.Deal;
 
 public class DealsActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -40,7 +34,6 @@ public class DealsActivity extends AppCompatActivity implements SwipeRefreshLayo
     SwipeRefreshLayout swipeRefreshDeals;
     @BindView(R.id.fab_deals)
     FloatingActionButton fab;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +60,7 @@ public class DealsActivity extends AppCompatActivity implements SwipeRefreshLayo
         recyclerDeals.setItemAnimator(new DefaultItemAnimator());
         recyclerDeals.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
 
-
         swipeRefreshDeals.setOnRefreshListener(this);
-        
     }
 
     @Override
@@ -97,25 +88,14 @@ public class DealsActivity extends AppCompatActivity implements SwipeRefreshLayo
     @OnClick(R.id.fab_deals)
     void addDeal(View view) {
         Timber.d("Button pressed");
-        ApiFactory.getDealsApiService()
-                .deals()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        deals -> {
-                            for (Deal deal : deals) {
-                                Timber.d(deals.toString());
-                                Timber.d(deal.toString());
-                            }
-                        },
-                        Timber::e,
-                        () -> {
-                            Timber.d("Data downloaded");
-                        });
     }
 
     @Override
     public void onRefresh() {
         swipeRefreshDeals.setRefreshing(false);
+    }
+
+    void showError(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

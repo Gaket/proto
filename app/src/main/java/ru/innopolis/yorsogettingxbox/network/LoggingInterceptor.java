@@ -1,18 +1,18 @@
 package ru.innopolis.yorsogettingxbox.network;
 
 import android.support.annotation.NonNull;
-import android.support.compat.BuildConfig;
 
 import java.io.IOException;
 
 import okhttp3.Interceptor;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
+import ru.innopolis.yorsogettingxbox.BuildConfig;
 
 import static okhttp3.logging.HttpLoggingInterceptor.Level;
 
 /**
- * @author Artur Badretdinov
+ * @author Aydar Farrakhov
  */
 public final class LoggingInterceptor implements Interceptor {
 

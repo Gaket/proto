@@ -2,6 +2,10 @@ package ru.innopolis.yorsogettingxbox.network;
 
 import android.support.annotation.NonNull;
 
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -59,9 +63,14 @@ public class ApiFactory {
         return new Retrofit.Builder()
                 .baseUrl(API_ENDPOINT)
                 .client(getClient())
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(getGson()))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
+    }
+
+    @NonNull
+    private static Gson getGson() {
+        return new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create();
     }
 
     @NonNull
