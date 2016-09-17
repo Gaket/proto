@@ -40,6 +40,7 @@ public class DocumentsActivity extends AppCompatActivity implements SwipeRefresh
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
+
         List<Document> documents = new ArrayList<Document>() {
             {
                 add(new Document("Договор.pdf", true, 70));
