@@ -53,7 +53,7 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.DealsViewHol
         return deals.size();
     }
 
-    public void setDocuments(List<Deal> newDeals) {
+    public void setDeals(List<Deal> newDeals) {
         deals = newDeals;
         notifyDataSetChanged();
     }
