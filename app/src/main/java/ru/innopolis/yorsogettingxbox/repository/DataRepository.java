@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import ru.innopolis.yorsogettingxbox.models.Deal;
+import ru.innopolis.yorsogettingxbox.models.Document;
 import rx.Observable;
 
 public interface DataRepository {
@@ -14,4 +15,5 @@ public interface DataRepository {
 
     Observable<Deal> putDeal(Deal deal);
 
+    Observable<List<Document>> getDocuments(int dealId);
 }

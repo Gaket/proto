@@ -5,7 +5,8 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import ru.innopolis.yorsogettingxbox.models.Deal;
-import ru.innopolis.yorsogettingxbox.network.ApiFactory;
+import ru.innopolis.yorsogettingxbox.models.Document;
+import ru.innopolis.yorsogettingxbox.repository.network.ApiFactory;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -27,5 +28,10 @@ public class OnlineDataRepository implements DataRepository {
                 .newDeal(deal)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<List<Document>> getDocuments(int dealId) {
+        return null;
     }
 }

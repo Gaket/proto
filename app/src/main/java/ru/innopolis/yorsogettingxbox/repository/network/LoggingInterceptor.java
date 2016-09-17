@@ -1,4 +1,4 @@
-package ru.innopolis.yorsogettingxbox.network;
+package ru.innopolis.yorsogettingxbox.repository.network;
 
 import android.support.annotation.NonNull;
 

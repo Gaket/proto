@@ -1,4 +1,4 @@
-package ru.innopolis.yorsogettingxbox.common;
+package ru.innopolis.yorsogettingxbox.presentation.common;
 
 import android.content.Context;
 import android.content.res.TypedArray;

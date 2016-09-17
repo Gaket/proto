@@ -1,10 +1,9 @@
-package ru.innopolis.yorsogettingxbox.documents;
+package ru.innopolis.yorsogettingxbox.presentation.documents;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -21,7 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ru.innopolis.yorsogettingxbox.R;
-import ru.innopolis.yorsogettingxbox.common.DividerItemDecoration;
+import ru.innopolis.yorsogettingxbox.presentation.common.DividerItemDecoration;
 import ru.innopolis.yorsogettingxbox.models.Document;
 
 public class DocumentsActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
@@ -35,6 +34,8 @@ public class DocumentsActivity extends AppCompatActivity implements SwipeRefresh
     SwipeRefreshLayout swipeRefreshDocuments;
     @BindView(R.id.fab)
     FloatingActionButton fab;
+
+    private int dealId = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,17 +69,14 @@ public class DocumentsActivity extends AppCompatActivity implements SwipeRefresh
         Intent sf = new Intent(Intent.ACTION_GET_CONTENT);
         Uri uri = Uri.parse("/");
         sf.setDataAndType(uri, "*/*");
-        startActivityForResult(sf.createChooser(sf, "select file"), PICK_FILE);
-
+        startActivityForResult(Intent.createChooser(sf, "select file"), PICK_FILE);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        String Fpath = data.getDataString();
+        String filePath = data.getDataString();
 
-        Toast.makeText(this, " something" + Fpath ,Toast.LENGTH_LONG).show();
-
-
+        Toast.makeText(this, " something" + filePath ,Toast.LENGTH_LONG).show();
     }
 
     @Override

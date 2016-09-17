@@ -1,4 +1,4 @@
-package ru.innopolis.yorsogettingxbox.documents;
+package ru.innopolis.yorsogettingxbox.presentation.documents;
 
 import android.app.Activity;
 import android.content.Context;

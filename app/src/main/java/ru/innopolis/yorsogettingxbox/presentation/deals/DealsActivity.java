@@ -1,4 +1,4 @@
-package ru.innopolis.yorsogettingxbox.deals;
+package ru.innopolis.yorsogettingxbox.presentation.deals;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -20,7 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ru.innopolis.yorsogettingxbox.R;
-import ru.innopolis.yorsogettingxbox.common.DividerItemDecoration;
+import ru.innopolis.yorsogettingxbox.presentation.common.DividerItemDecoration;
 import ru.innopolis.yorsogettingxbox.models.Deal;
 import timber.log.Timber;
 

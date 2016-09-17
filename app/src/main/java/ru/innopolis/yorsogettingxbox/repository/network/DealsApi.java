@@ -1,4 +1,4 @@
-package ru.innopolis.yorsogettingxbox.network;
+package ru.innopolis.yorsogettingxbox.repository.network;
 
 import java.util.List;
 
