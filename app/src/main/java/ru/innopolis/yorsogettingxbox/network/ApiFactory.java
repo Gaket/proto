@@ -6,7 +6,6 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import ru.innopolis.yorsogettingxbox.BuildConfig;
 
 public class ApiFactory {
 
@@ -14,6 +13,8 @@ public class ApiFactory {
 
     private static volatile DocumentsApi sDocumentsService;
     private static volatile DealsApi sDealsService;
+
+    public static final String API_ENDPOINT = "http://we-need-xbox.azurewebsites.net/api/";
 
     private ApiFactory() {
     }
@@ -56,7 +57,7 @@ public class ApiFactory {
     @NonNull
     private static Retrofit buildRetrofit() {
         return new Retrofit.Builder()
-                .baseUrl(BuildConfig.API_ENDPOINT)
+                .baseUrl(API_ENDPOINT)
                 .client(getClient())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())

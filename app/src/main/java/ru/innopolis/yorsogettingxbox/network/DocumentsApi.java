@@ -7,6 +7,6 @@ import ru.innopolis.yorsogettingxbox.models.Document;
 import rx.Observable;
 
 public interface DocumentsApi {
-    @GET("deals")
+    @GET("documents")
     Observable<List<Document>> documents();
 }
