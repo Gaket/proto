@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">YorsoGettingXbox</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_documents">DocumentsActivity</string>
+    <string name="tr1">Сделка 1</string>
+    <string name="tr2">Сделка 2</string>
+    <string name="tr3">Сделка 3</string>
+    <string name="cons">Consumer:</string>
+    <string name="prod">Producer:</string>
+    <string name="check">In blockchain:</string>
+    <string name="check1">Подписи</string>
+</resources>
