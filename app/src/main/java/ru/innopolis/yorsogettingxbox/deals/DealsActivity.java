@@ -7,21 +7,24 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
+
+import java.net.UnknownHostException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ru.innopolis.yorsogettingxbox.R;
 import ru.innopolis.yorsogettingxbox.models.Deal;
-import ru.innopolis.yorsogettingxbox.network.ApiFactory;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import ru.innopolis.yorsogettingxbox.repository.RepositoryProvider;
 import timber.log.Timber;
 
 public class DealsActivity extends AppCompatActivity {
 
     @BindView(R.id.fab)
     FloatingActionButton fab;
+
+    int i = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,20 +63,32 @@ public class DealsActivity extends AppCompatActivity {
     @OnClick(R.id.fab)
     void addDocument(View view) {
         Timber.d("Button pressed");
-        ApiFactory.getDealsApiService()
-                .deals()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        deals -> {
-                            for (Deal deal : deals) {
-                                Timber.d(deals.toString());
+        i++;
+        if (i % 2 == 0) {
+            RepositoryProvider.provideDataRepository().getDeals()
+                    .subscribe(
+                            deals -> {for (Deal deal : deals) {Timber.d(deal.toString());}}
+                    );
+
+        } else {
+            RepositoryProvider.provideDataRepository().putDeal(new Deal("ss", "ff"))
+                    .subscribe(
+                            deal -> {
+                                Timber.d("On next item");
                                 Timber.d(deal.toString());
-                            }
-                        },
-                        Timber::e,
-                        () -> {
-                            Timber.d("Data downloaded");
-                        });
+                            },
+                            throwable -> {
+                                if (throwable instanceof UnknownHostException) {
+                                    showError("Check your wi-fi connection");
+                                } else Timber.e(throwable);
+                            },
+                            () -> {
+                                Timber.d("Data downloaded");
+                            });
+        }
+    }
+
+    void showError(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
