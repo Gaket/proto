@@ -6,26 +6,27 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import ru.innopolis.yorsogettingxbox.BuildConfig;
 
 public class ApiFactory {
 
     private static OkHttpClient sClient;
 
-    private static volatile DocumentsApiService sDocumentsService;
-    private static volatile DealsApiService sDealsService;
+    private static volatile DocumentsApi sDocumentsService;
+    private static volatile DealsApi sDealsService;
+
+    public static final String API_ENDPOINT = "http://we-need-xbox.azurewebsites.net/api/";
 
     private ApiFactory() {
     }
 
     @NonNull
-    public static DocumentsApiService getDocumentsApiService() {
-        DocumentsApiService service = sDocumentsService;
+    public static DocumentsApi getDocumentsApiService() {
+        DocumentsApi service = sDocumentsService;
         if (service == null) {
             synchronized (ApiFactory.class) {
                 service = sDocumentsService;
                 if (service == null) {
-                    service = sDocumentsService = buildRetrofit().create(DocumentsApiService.class);
+                    service = sDocumentsService = buildRetrofit().create(DocumentsApi.class);
                 }
             }
         }
@@ -33,13 +34,13 @@ public class ApiFactory {
     }
 
     @NonNull
-    public static DealsApiService getDealsApiService() {
-        DealsApiService service = sDealsService;
+    public static DealsApi getDealsApiService() {
+        DealsApi service = sDealsService;
         if (service == null) {
             synchronized (ApiFactory.class) {
                 service = sDealsService;
                 if (service == null) {
-                    service = sDealsService = buildRetrofit().create(DealsApiService.class);
+                    service = sDealsService = buildRetrofit().create(DealsApi.class);
                 }
             }
         }
@@ -49,14 +50,14 @@ public class ApiFactory {
     public static void recreate() {
         sClient = null;
         sClient = getClient();
-        sDocumentsService = buildRetrofit().create(DocumentsApiService.class);
-        sDealsService = buildRetrofit().create(DealsApiService.class);
+        sDocumentsService = buildRetrofit().create(DocumentsApi.class);
+        sDealsService = buildRetrofit().create(DealsApi.class);
     }
 
     @NonNull
     private static Retrofit buildRetrofit() {
         return new Retrofit.Builder()
-                .baseUrl(BuildConfig.API_ENDPOINT)
+                .baseUrl(API_ENDPOINT)
                 .client(getClient())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
