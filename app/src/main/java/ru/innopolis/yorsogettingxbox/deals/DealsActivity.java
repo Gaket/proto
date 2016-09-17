@@ -13,8 +13,6 @@ import ru.innopolis.yorsogettingxbox.R;
 
 public class DealsActivity extends AppCompatActivity {
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
