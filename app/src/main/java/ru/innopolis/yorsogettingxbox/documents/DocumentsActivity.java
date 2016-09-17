@@ -1,5 +1,7 @@
 package ru.innopolis.yorsogettingxbox.documents;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -24,6 +26,7 @@ import ru.innopolis.yorsogettingxbox.models.Document;
 
 public class DocumentsActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
+    private static final int PICK_FILE = 1;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.recycler_documents)
@@ -62,7 +65,20 @@ public class DocumentsActivity extends AppCompatActivity implements SwipeRefresh
 
     @OnClick(R.id.fab)
     void addDocument(View view) {
-        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        Intent sf = new Intent(Intent.ACTION_GET_CONTENT);
+        Uri uri = Uri.parse("/");
+        sf.setDataAndType(uri, "*/*");
+        startActivityForResult(sf.createChooser(sf, "select file"), PICK_FILE);
+
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        String Fpath = data.getDataString();
+        // do somthing...
+        Toast.makeText(this, " something" + Fpath ,Toast.LENGTH_LONG).show();
+
+
     }
 
     @Override
