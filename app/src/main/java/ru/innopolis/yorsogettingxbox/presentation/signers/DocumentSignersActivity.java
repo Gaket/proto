@@ -37,6 +37,7 @@ public class DocumentSignersActivity extends AppCompatActivity implements SwipeR
         setContentView(R.layout.activity_document_signers);
         ButterKnife.bind(this);
         setSupportActionBar(signersToolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         document = (Document) getIntent().getSerializableExtra(DocumentsActivity.DOCUMENT_CODE);
 

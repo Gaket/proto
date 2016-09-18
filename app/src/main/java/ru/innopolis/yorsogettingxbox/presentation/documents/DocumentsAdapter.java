@@ -56,6 +56,9 @@ public class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.Docu
 
     public void setDocuments(List<Document> newDocuments) {
         documents = newDocuments;
+        for (Document document : newDocuments) {
+//            document.
+        }
         notifyDataSetChanged();
     }
 
