@@ -27,7 +27,7 @@ import ru.innopolis.yorsogettingxbox.repository.FileUtils;
 import ru.innopolis.yorsogettingxbox.repository.RepositoryProvider;
 import timber.log.Timber;
 
-public class DocumentsActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class DocumentsActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, DocumentsAdapter.OnItemClickListener {
 
     private static final int PICK_FILE_REQUEST_CODE = 1;
     @BindView(R.id.toolbar)
@@ -61,7 +61,7 @@ public class DocumentsActivity extends AppCompatActivity implements SwipeRefresh
 
         swipeRefreshDocuments.setColorSchemeResources(R.color.primary_light, R.color.primary, R.color.primary_dark, R.color.accent);
 
-        adapter = new DocumentsAdapter(this, documents);
+        adapter = new DocumentsAdapter(this, this, documents);
         recyclerDocuments.setAdapter(adapter);
         recyclerDocuments.setLayoutManager(new LinearLayoutManager(this));
         recyclerDocuments.setItemAnimator(new DefaultItemAnimator());
@@ -71,11 +71,10 @@ public class DocumentsActivity extends AppCompatActivity implements SwipeRefresh
     }
 
     private void init() {
-//        RepositoryProvider.provideDataRepository().getDocuments(dealId)
-//                .doOnSubscribe(() -> swipeRefreshDocuments.setRefreshing(true))
-//                .doAfterTerminate(() -> swipeRefreshDocuments.setRefreshing(false))
-//                .subscribe(docAdapter::setDeals, Timber::e);
-//
+        RepositoryProvider.provideDataRepository().getDocuments(dealId)
+                .doOnSubscribe(() -> swipeRefreshDocuments.setRefreshing(true))
+                .doAfterTerminate(() -> swipeRefreshDocuments.setRefreshing(false))
+                .subscribe(adapter::setDocuments, Timber::e);
     }
 
 
@@ -101,7 +100,6 @@ public class DocumentsActivity extends AppCompatActivity implements SwipeRefresh
                 if (resultCode == RESULT_OK) {
                     Uri uri = data.getData();
                     File myFile = FileUtils.getFile(this, uri);
-
                     if (myFile == null) {
                         Timber.e("File is null");
                         return;
@@ -121,7 +119,13 @@ public class DocumentsActivity extends AppCompatActivity implements SwipeRefresh
 
     @Override
     public void onRefresh() {
-        Toast.makeText(this, "Documents info updated", Toast.LENGTH_SHORT).show();
-        swipeRefreshDocuments.setRefreshing(false);
+        init();
+    }
+
+    @Override
+    public void onItemClick(Document item) {
+//        Intent intent = new Intent(this, DocumentSignersActivity.class);
+//        intent.putExtra("documentId", item.getId());
+//        startActivity(intent);
     }
 }

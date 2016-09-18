@@ -1,7 +1,6 @@
 package ru.innopolis.yorsogettingxbox.presentation.documents;
 
 import android.app.Activity;
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,19 +19,18 @@ import ru.innopolis.yorsogettingxbox.models.Document;
 
 public class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.DocumentViewHolder> {
 
-
     private List<Document> documents;
     private final LayoutInflater layoutInflater;
-    private final Context context;
+    private OnItemClickListener listener;
 
-    public DocumentsAdapter(Activity activity) {
-        this(activity, new ArrayList<Document>());
+    public DocumentsAdapter(Activity activity, OnItemClickListener listener) {
+        this(activity, listener, new ArrayList<>());
     }
 
-    public DocumentsAdapter(Activity activity, List<Document> documents) {
-        this.context = activity;
+    public DocumentsAdapter(Activity activity, OnItemClickListener listener, List<Document> documents) {
         this.documents = documents;
         this.layoutInflater = activity.getLayoutInflater();
+        this.listener = listener;
     }
 
     @Override
@@ -46,10 +44,9 @@ public class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.Docu
         Document document = documents.get(position);
         holder.viewDocumentName.setText(document.getName());
         holder.numberProgressBar.setProgress(document.getPercentDone());
-//        int resId = (document.isChainStatus()) ? R.drawable.ic_check_circle_black_24dp : R.drawable.ic_remove_circle_black_24dp;
-//        holder.documentStatus.setImageResource(resId);
         holder.viewDocumentBlockchain.setText(
                 document.isChainStatus() ? R.string.text_in_blockchain : R.string.text_not_in_bllockchain);
+        holder.rootView.setOnClickListener((view -> {listener.onItemClick(documents.get(position));}));
     }
 
     @Override
@@ -62,6 +59,15 @@ public class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.Docu
         notifyDataSetChanged();
     }
 
+    public void addDocument(Document item){
+        documents.add(item);
+        notifyItemInserted(documents.size() - 1);
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Document item);
+    }
+
     public class DocumentViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.text_document_name)
@@ -70,8 +76,8 @@ public class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.Docu
         TextView viewDocumentBlockchain;
         @BindView(R.id.number_progress_bar)
         NumberProgressBar numberProgressBar;
-//        @BindView(R.id.image_document_status)
-//        ImageView documentStatus;
+        @BindView(R.id.view_document)
+        View rootView;
 
         public DocumentViewHolder(View itemView) {
             super(itemView);

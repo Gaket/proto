@@ -1,8 +1,6 @@
 package ru.innopolis.yorsogettingxbox.presentation.deals;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,6 +64,10 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.DealsViewHol
         notifyItemInserted(deals.size() - 1);
     }
 
+    public interface OnItemClickListener {
+        void onItemClick(Deal item);
+    }
+
     class DealsViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.view_deals_name)
         TextView viewDealsName;
@@ -78,9 +80,5 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.DealsViewHol
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(Deal item);
     }
 }
