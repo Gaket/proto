@@ -1,7 +1,6 @@
 package ru.innopolis.yorsogettingxbox.presentation.signers;
 
 import android.app.Activity;
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +14,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.innopolis.yorsogettingxbox.R;
 import ru.innopolis.yorsogettingxbox.models.SignInfoEntity;
-import ru.innopolis.yorsogettingxbox.models.SignerEntity;
-import ru.innopolis.yorsogettingxbox.presentation.documents.DocumentsAdapter;
 
 /**
  * Created by enspa on 18.09.2016.
@@ -40,10 +37,10 @@ public class DocumentSignersAdapter extends RecyclerView.Adapter<DocumentSigners
         return new DocumentSignersViewHolder(view);
     }
 
-
     public void onBindViewHolder(DocumentSignersViewHolder holder, int position) {
         SignInfoEntity signer = signers.get(position);
         holder.signerName.setText(signer.getSigner().getName());
+        holder.signs.setText(signer.isSigned ? R.string.signed : R.string.not_signed);
     }
 
     @Override

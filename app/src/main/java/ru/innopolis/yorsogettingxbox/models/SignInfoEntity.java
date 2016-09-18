@@ -1,6 +1,8 @@
 package ru.innopolis.yorsogettingxbox.models;
 
-public class SignInfoEntity {
+import java.io.Serializable;
+
+public class SignInfoEntity implements Serializable {
     public String signDate;
     public SignerEntity signer;
     public boolean isSigned;

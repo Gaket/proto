@@ -1,6 +1,8 @@
 package ru.innopolis.yorsogettingxbox.models;
 
-public class SignerEntity {
+import java.io.Serializable;
+
+public class SignerEntity implements Serializable {
     public int id;
     public String name;
     public String privateKey;

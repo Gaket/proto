@@ -15,6 +15,8 @@
 
     //Signers
     <string name="text_signer">Signer</string>
+    <string name="signed">Signed</string>
+    <string name="not_signed">Document not signed yet</string>
 
     <array name="titles">
         <item> Bying some fruit</item>

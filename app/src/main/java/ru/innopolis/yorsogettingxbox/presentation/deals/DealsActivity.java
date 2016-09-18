@@ -25,6 +25,7 @@ import timber.log.Timber;
 
 public class DealsActivity extends AppCompatActivity
         implements SwipeRefreshLayout.OnRefreshListener, DealsAdapter.OnItemClickListener {
+    public static final String DEAL_ID_CODE = "dealId";
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -36,6 +37,7 @@ public class DealsActivity extends AppCompatActivity
     FloatingActionButton fab;
 
     DealsAdapter dealsAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +97,7 @@ public class DealsActivity extends AppCompatActivity
     @Override
     public void onItemClick(Deal item) {
         Intent intent = new Intent(this, DocumentsActivity.class);
-        intent.putExtra("dealId", item.getId());
+        intent.putExtra(DEAL_ID_CODE, item.getId());
         startActivity(intent);
     }
 }

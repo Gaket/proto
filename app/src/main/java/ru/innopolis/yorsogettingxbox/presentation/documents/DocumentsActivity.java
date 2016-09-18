@@ -21,11 +21,15 @@ import butterknife.OnClick;
 import ru.innopolis.yorsogettingxbox.R;
 import ru.innopolis.yorsogettingxbox.models.Document;
 import ru.innopolis.yorsogettingxbox.presentation.common.DividerItemDecoration;
+import ru.innopolis.yorsogettingxbox.presentation.deals.DealsActivity;
+import ru.innopolis.yorsogettingxbox.presentation.signers.DocumentSignersActivity;
 import ru.innopolis.yorsogettingxbox.repository.FileUtils;
 import ru.innopolis.yorsogettingxbox.repository.RepositoryProvider;
 import timber.log.Timber;
 
 public class DocumentsActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, DocumentsAdapter.OnItemClickListener {
+
+    public static final String DOCUMENT_CODE = "document_code";
 
     private static final int PICK_FILE_REQUEST_CODE = 1;
     @BindView(R.id.toolbar)
@@ -45,11 +49,10 @@ public class DocumentsActivity extends AppCompatActivity implements SwipeRefresh
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_documents);
         ButterKnife.bind(this);
+        dealId = getIntent().getIntExtra(DealsActivity.DEAL_ID_CODE, 1);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         init();
-
         swipeRefreshDocuments.setColorSchemeResources(R.color.primary, R.color.primary_dark, R.color.accent);
 
         adapter = new DocumentsAdapter(this, this);
@@ -121,8 +124,8 @@ public class DocumentsActivity extends AppCompatActivity implements SwipeRefresh
 
     @Override
     public void onItemClick(Document item) {
-//        Intent intent = new Intent(this, DocumentSignersActivity.class);
-//        intent.putExtra("documentId", item.getId());
-//        startActivity(intent);
+        Intent intent = new Intent(this, DocumentSignersActivity.class);
+        intent.putExtra(DOCUMENT_CODE, item);
+        startActivity(intent);
     }
 }
