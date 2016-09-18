@@ -1,5 +1,7 @@
 package ru.innopolis.yorsogettingxbox.repository.network;
 
+import java.util.List;
+
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.http.GET;
@@ -13,7 +15,7 @@ import rx.Observable;
 
 public interface DocumentsApi {
     @GET("deals/{id}/documents")
-    Observable<Document> documents(@Path("id") int id);
+    Observable<List<Document>> documents(@Path("id") int id);
 
     @Multipart
     @POST("deals/{id}/documents")

@@ -74,10 +74,9 @@ public class DocumentsActivity extends AppCompatActivity implements SwipeRefresh
         RepositoryProvider.provideDataRepository().getDocuments(dealId)
                 .doOnSubscribe(() -> swipeRefreshDocuments.setRefreshing(true))
                 .doAfterTerminate(() -> swipeRefreshDocuments.setRefreshing(false))
-                .subscribe(document -> {
+                .subscribe(documents -> { adapter.setDocuments(documents);
                 }, Timber::e);
     }
-
 
     @OnClick(R.id.fab)
     void addDocument(View view) {
@@ -115,7 +114,9 @@ public class DocumentsActivity extends AppCompatActivity implements SwipeRefresh
             default:
                 Timber.e("Unexpected request code: %s", requestCode);
                 break;
+
         }
+
     }
 
     @Override

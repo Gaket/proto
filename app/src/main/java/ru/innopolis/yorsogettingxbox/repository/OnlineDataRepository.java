@@ -36,7 +36,7 @@ public class OnlineDataRepository implements DataRepository {
     }
 
     @Override
-    public Observable<Document> getDocuments(int dealId) {
+    public Observable<List<Document>> getDocuments(int dealId) {
         return ServiceFactory.getDocumentsApiService()
                 .documents(dealId)
                 .subscribeOn(Schedulers.io())
