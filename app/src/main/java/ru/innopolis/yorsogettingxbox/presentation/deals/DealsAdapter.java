@@ -28,7 +28,7 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.DealsViewHol
 
 
     public DealsAdapter(Activity activity, OnItemClickListener listener) {
-        this(activity, listener, new ArrayList<Deal>());
+        this(activity, listener, new ArrayList<>());
     }
 
     public DealsAdapter(Activity activity, OnItemClickListener listener,  List<Deal> deals) {
@@ -48,12 +48,7 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.DealsViewHol
         Deal deal = deals.get(position);
         holder.viewDealsName.setText(deal.getTitle());
         holder.viewDealsDescription.setText(deal.getDescription());
-        holder.rootView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listener.onItemClick(deals.get(position));
-            }
-        });
+        holder.rootView.setOnClickListener(view -> listener.onItemClick(deals.get(position)));
     }
 
     @Override
@@ -83,7 +78,6 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.DealsViewHol
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
-
     }
 
     public interface OnItemClickListener {

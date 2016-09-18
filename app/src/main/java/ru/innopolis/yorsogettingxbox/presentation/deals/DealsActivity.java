@@ -26,6 +26,7 @@ import ru.innopolis.yorsogettingxbox.presentation.common.DividerItemDecoration;
 import ru.innopolis.yorsogettingxbox.models.Deal;
 import ru.innopolis.yorsogettingxbox.presentation.documents.DocumentsActivity;
 import ru.innopolis.yorsogettingxbox.presentation.newdeal.AddingDealActivity;
+import ru.innopolis.yorsogettingxbox.repository.RepositoryProvider;
 import timber.log.Timber;
 
 public class DealsActivity extends AppCompatActivity
@@ -41,75 +42,56 @@ public class DealsActivity extends AppCompatActivity
     FloatingActionButton fab;
 
     DealsAdapter dealsAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deals);
-
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
-        Timber.d("Test");
-
-        List<Deal> deals = new ArrayList<Deal>(){
-            {
-                add(new Deal(70,"Название предложения 1","Описание предложения 1"));
-                add(new Deal(100, "Название предложения 2", "Описание предложения 2"));
-                add(new Deal(120,"Название предложения 3", "Описание предложения 3"));
-            }
-        };
+        setupRecyclerLayout();
+        init();
 
         swipeRefreshDeals.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent);
-        dealsAdapter = new DealsAdapter(this, this, deals);
+        swipeRefreshDeals.setOnRefreshListener(this);
+    }
+
+    private void setupRecyclerLayout() {
+        dealsAdapter = new DealsAdapter(this, this);
         recyclerDeals.setAdapter(dealsAdapter);
         recyclerDeals.setLayoutManager(new LinearLayoutManager(this));
         recyclerDeals.setItemAnimator(new DefaultItemAnimator());
         recyclerDeals.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
-
-        swipeRefreshDeals.setOnRefreshListener(this);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_deals, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    private void init() {
+        RepositoryProvider.provideDataRepository().getDeals()
+                .doOnSubscribe(() -> swipeRefreshDeals.setRefreshing(true))
+                .doAfterTerminate(() -> swipeRefreshDeals.setRefreshing(false))
+                .subscribe(dealsAdapter::setDeals, Timber::e);
     }
 
     @OnClick(R.id.fab_deals)
     void addDeal(View view) {
-        Timber.d("Button pressed");
         Intent add = new Intent(this, AddingDealActivity.class);
-        startActivityForResult(add,1);
+        startActivityForResult(add, 1);
     }
 
-    protected void onActivityResult(int RequestCode, int resultCode,Intent data){
-        if(data == null){return;}
-        dealsAdapter.addDeal(new Deal(123, data.getStringExtra("title"), data.getStringExtra("description")));
-
-
-//        data.getStringExtra("title")
+    protected void onActivityResult(int RequestCode, int resultCode, Intent data) {
+        if (data == null) {
+            return;
+        }
+        Deal deal = new Deal(data.getStringExtra("title"), data.getStringExtra("description"));
+        dealsAdapter.addDeal(deal);
+        RepositoryProvider.provideDataRepository().putDeal(deal)
+                .subscribe(msg -> {
+                }, Timber::e);
     }
-
 
     @Override
     public void onRefresh() {
-        swipeRefreshDeals.setRefreshing(false);
+        init();
     }
 
     void showError(String message) {
@@ -122,6 +104,4 @@ public class DealsActivity extends AppCompatActivity
         intent.putExtra("dealId", item.getId());
         startActivity(intent);
     }
-
-
 }
