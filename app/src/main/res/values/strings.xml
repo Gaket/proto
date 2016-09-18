@@ -10,6 +10,6 @@
 
     //AddingDealActivity
     <string name="submit">submit data</string>
-    <string name="prompt_about_Title">Here will be Title</string>
-    <string name="prompt_about_Description">Here will be Description</string>
+    <string name="prompt_about_Title">Deal title</string>
+    <string name="prompt_about_Description">Deal description</string>
 </resources>

@@ -47,6 +47,7 @@ public class DocumentsActivity extends AppCompatActivity implements SwipeRefresh
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Deal #" + dealId);
 
         init();
 
