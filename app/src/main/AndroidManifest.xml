@@ -14,11 +14,6 @@
         android:theme="@style/AppTheme"
         >
         <activity
-            android:name=".presentation.documents.DocumentsActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"></activity>
-        <activity
             android:name=".presentation.deals.DealsActivity"
             android:label="DealsActivity"
             android:theme="@style/AppTheme.NoActionBar"
@@ -29,6 +24,13 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+        <activity
+            android:name=".presentation.documents.DocumentsActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
 
         </activity>
         <activity android:name=".presentation.newdeal.AddingDealActivity"></activity>

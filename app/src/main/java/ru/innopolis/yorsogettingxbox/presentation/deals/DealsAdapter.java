@@ -2,6 +2,7 @@ package ru.innopolis.yorsogettingxbox.presentation.deals;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,16 +24,17 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.DealsViewHol
 
     private List<Deal> deals;
     private final LayoutInflater layoutInflater;
-    private final Context context;
+    private final OnItemClickListener listener;
 
-    public DealsAdapter(Activity activity) {
-        this(activity, new ArrayList<Deal>());
+
+    public DealsAdapter(Activity activity, OnItemClickListener listener) {
+        this(activity, listener, new ArrayList<Deal>());
     }
 
-    public DealsAdapter(Activity activity, List<Deal> deals) {
-        this.context = activity;
+    public DealsAdapter(Activity activity, OnItemClickListener listener,  List<Deal> deals) {
         this.deals = deals;
         this.layoutInflater = activity.getLayoutInflater();
+        this.listener = listener;
     }
 
     @Override
@@ -46,6 +48,12 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.DealsViewHol
         Deal deal = deals.get(position);
         holder.viewDealsName.setText(deal.getTitle());
         holder.viewDealsDescription.setText(deal.getDescription());
+        holder.rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onItemClick(deals.get(position));
+            }
+        });
     }
 
     @Override
@@ -60,20 +68,25 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.DealsViewHol
 
     public void addDeal(Deal deal){
         deals.add(deal);
-        notifyDataSetChanged();
-
-//        notifyItemInserted(deals.size()-1);
+        notifyItemInserted(deals.size() - 1);
     }
+
     class DealsViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.view_deals_name)
         TextView viewDealsName;
         @BindView(R.id.view_deals_description)
         TextView viewDealsDescription;
+        @BindView(R.id.view_deal)
+        View rootView;
 
         public DealsViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Deal item);
     }
 }

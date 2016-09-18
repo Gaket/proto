@@ -24,10 +24,12 @@ import butterknife.OnClick;
 import ru.innopolis.yorsogettingxbox.R;
 import ru.innopolis.yorsogettingxbox.presentation.common.DividerItemDecoration;
 import ru.innopolis.yorsogettingxbox.models.Deal;
+import ru.innopolis.yorsogettingxbox.presentation.documents.DocumentsActivity;
 import ru.innopolis.yorsogettingxbox.presentation.newdeal.AddingDealActivity;
 import timber.log.Timber;
 
-public class DealsActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class DealsActivity extends AppCompatActivity
+        implements SwipeRefreshLayout.OnRefreshListener, DealsAdapter.OnItemClickListener {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -58,7 +60,7 @@ public class DealsActivity extends AppCompatActivity implements SwipeRefreshLayo
         };
 
         swipeRefreshDeals.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent);
-        dealsAdapter = new DealsAdapter(this, deals);
+        dealsAdapter = new DealsAdapter(this, this, deals);
         recyclerDeals.setAdapter(dealsAdapter);
         recyclerDeals.setLayoutManager(new LinearLayoutManager(this));
         recyclerDeals.setItemAnimator(new DefaultItemAnimator());
@@ -113,4 +115,13 @@ public class DealsActivity extends AppCompatActivity implements SwipeRefreshLayo
     void showError(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void onItemClick(Deal item) {
+        Intent intent = new Intent(this, DocumentsActivity.class);
+        intent.putExtra("dealId", item.getId());
+        startActivity(intent);
+    }
+
+
 }
