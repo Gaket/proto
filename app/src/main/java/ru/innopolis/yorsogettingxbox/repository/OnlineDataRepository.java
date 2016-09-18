@@ -23,7 +23,7 @@ public class OnlineDataRepository implements DataRepository {
     @Override
     public Observable<List<Deal>> getDeals() {
         return ServiceFactory.getDealsApiService()
-                .deals()
+                .getDeals()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

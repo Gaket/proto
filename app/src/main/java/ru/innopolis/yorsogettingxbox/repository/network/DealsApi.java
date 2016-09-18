@@ -10,8 +10,8 @@ import rx.Observable;
 
 public interface DealsApi {
     @GET("deals/")
-    Observable<List<Deal>> deals();
+    Observable<List<Deal>> getDeals();
 
-    @POST("deals/")
+    @POST("getDeals/")
     Observable<Deal> newDeal(@Body Deal deal);
 }

@@ -52,6 +52,8 @@ public class DocumentsActivity extends AppCompatActivity implements SwipeRefresh
         dealId = getIntent().getIntExtra(DealsActivity.DEAL_ID_CODE, 1);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Deal #" + dealId);
+
         init();
         swipeRefreshDocuments.setColorSchemeResources(R.color.primary, R.color.primary_dark, R.color.accent);
 
