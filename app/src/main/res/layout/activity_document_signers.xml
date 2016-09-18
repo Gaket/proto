@@ -25,15 +25,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_documents"/>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/signers_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_add_white_24dp"
-        />
+    <include layout="@layout/content_signers"/>
 
 </android.support.design.widget.CoordinatorLayout>

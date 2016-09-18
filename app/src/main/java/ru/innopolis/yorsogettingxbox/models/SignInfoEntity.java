@@ -6,6 +6,12 @@ public class SignInfoEntity {
     public boolean isSigned;
     public String transactionId;
 
+
+    public SignInfoEntity(SignerEntity signer, boolean isSigned) {
+        this.signer = signer;
+        this.isSigned = isSigned;
+    }
+
     public String getSignDate() {
         return signDate;
     }

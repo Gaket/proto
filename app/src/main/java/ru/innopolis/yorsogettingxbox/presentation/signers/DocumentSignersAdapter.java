@@ -14,6 +14,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.innopolis.yorsogettingxbox.R;
+import ru.innopolis.yorsogettingxbox.models.SignInfoEntity;
 import ru.innopolis.yorsogettingxbox.models.SignerEntity;
 import ru.innopolis.yorsogettingxbox.presentation.documents.DocumentsAdapter;
 
@@ -21,29 +22,28 @@ import ru.innopolis.yorsogettingxbox.presentation.documents.DocumentsAdapter;
  * Created by enspa on 18.09.2016.
  */
 public class DocumentSignersAdapter extends RecyclerView.Adapter<DocumentSignersAdapter.DocumentSignersViewHolder> {
-    private List<SignerEntity> signers;
+
+    private List<SignInfoEntity> signers;
     private final LayoutInflater layoutInflater;
-    private final Context context;
 
-    public DocumentSignersAdapter(Activity activity){this(activity,new ArrayList<SignerEntity>());}
 
-    public DocumentSignersAdapter(Activity activity, List<SignerEntity> signers) {
-        this.context = activity;
+    public DocumentSignersAdapter(Activity activity){this(activity,new ArrayList<SignInfoEntity>());}
+
+    public DocumentSignersAdapter(Activity activity, List<SignInfoEntity> signers) {
         this.signers = signers;
         this.layoutInflater = activity.getLayoutInflater();
     }
 
     @Override
     public DocumentSignersViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View view = layoutInflater.inflate(R.layout.item_document_layout, parent, false);
+        final View view = layoutInflater.inflate(R.layout.item_signers_layout, parent, false);
         return new DocumentSignersViewHolder(view);
     }
 
 
-    public void onBindViewHolder(DocumentSignersAdapter.DocumentSignersViewHolder holder, int position) {
-        SignerEntity signer = signers.get(position);
-
-
+    public void onBindViewHolder(DocumentSignersViewHolder holder, int position) {
+        SignInfoEntity signer = signers.get(position);
+        holder.signerName.setText(signer.getSigner().getName());
     }
 
     @Override
@@ -51,7 +51,7 @@ public class DocumentSignersAdapter extends RecyclerView.Adapter<DocumentSigners
         return signers.size();
     }
 
-    public void setSigner(List<SignerEntity> newSigner){
+    public void setSigner(List<SignInfoEntity> newSigner){
         signers = newSigner;
         notifyDataSetChanged();
     }

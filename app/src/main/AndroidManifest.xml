@@ -14,8 +14,8 @@
         android:theme="@style/AppTheme"
         >
         <activity
-            android:name=".presentation.deals.DealsActivity"
-            android:label="DealsActivity"
+            android:name=".presentation.signers.DocumentSignersActivity"
+            android:label="DocumentsSignersActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait">
 
@@ -35,12 +35,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".presentation.deals.DealsActivity" />
         </activity>
+
         <activity android:name=".presentation.newdeal.AddingDealActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".presentation.deals.DealsActivity" />
         </activity>
-        <activity android:name=".presentation.signers.DocumentSignersActivity"></activity>
+
+        <activity android:name=".presentation.deals.DealsActivity"></activity>
     </application>
 
 </manifest>
