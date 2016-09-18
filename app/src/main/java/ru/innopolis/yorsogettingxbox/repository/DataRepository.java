@@ -17,7 +17,7 @@ public interface DataRepository {
 
     Observable<Deal> putDeal(Deal deal);
 
-    Observable<List<Document>> getDocuments(int dealId);
+    Observable<Document> getDocuments(int dealId);
 
     Observable<DocumentsResponse> uploadDocument(int dealId, File file);
 }

@@ -74,7 +74,8 @@ public class DocumentsActivity extends AppCompatActivity implements SwipeRefresh
         RepositoryProvider.provideDataRepository().getDocuments(dealId)
                 .doOnSubscribe(() -> swipeRefreshDocuments.setRefreshing(true))
                 .doAfterTerminate(() -> swipeRefreshDocuments.setRefreshing(false))
-                .subscribe(adapter::setDocuments, Timber::e);
+                .subscribe(document -> {
+                }, Timber::e);
     }
 
 

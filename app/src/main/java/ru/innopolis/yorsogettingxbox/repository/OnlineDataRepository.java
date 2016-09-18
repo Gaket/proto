@@ -36,8 +36,11 @@ public class OnlineDataRepository implements DataRepository {
     }
 
     @Override
-    public Observable<List<Document>> getDocuments(int dealId) {
-        return null;
+    public Observable<Document> getDocuments(int dealId) {
+        return ServiceFactory.getDocumentsApiService()
+                .documents(dealId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
@@ -48,7 +51,6 @@ public class OnlineDataRepository implements DataRepository {
                 .upload(dealId, multipartBody)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
-
     }
 
 
