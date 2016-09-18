@@ -14,8 +14,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,20 +46,13 @@ public class DocumentsActivity extends AppCompatActivity implements SwipeRefresh
         setContentView(R.layout.activity_documents);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         init();
 
-        List<Document> documents = new ArrayList<Document>() {
-            {
-                add(new Document("Договор.pdf", true, 70));
-                add(new Document("Свидетельство.jpg", true, 100));
-                add(new Document("Очень важная бумажка.someType", false, 20));
-            }
-        };
+        swipeRefreshDocuments.setColorSchemeResources(R.color.primary, R.color.primary_dark, R.color.accent);
 
-        swipeRefreshDocuments.setColorSchemeResources(R.color.primary_light, R.color.primary, R.color.primary_dark, R.color.accent);
-
-        adapter = new DocumentsAdapter(this, this, documents);
+        adapter = new DocumentsAdapter(this, this);
         recyclerDocuments.setAdapter(adapter);
         recyclerDocuments.setLayoutManager(new LinearLayoutManager(this));
         recyclerDocuments.setItemAnimator(new DefaultItemAnimator());
@@ -74,7 +65,8 @@ public class DocumentsActivity extends AppCompatActivity implements SwipeRefresh
         RepositoryProvider.provideDataRepository().getDocuments(dealId)
                 .doOnSubscribe(() -> swipeRefreshDocuments.setRefreshing(true))
                 .doAfterTerminate(() -> swipeRefreshDocuments.setRefreshing(false))
-                .subscribe(documents -> { adapter.setDocuments(documents);
+                .subscribe(documents -> {
+                    adapter.setDocuments(documents);
                 }, Timber::e);
     }
 
@@ -105,6 +97,9 @@ public class DocumentsActivity extends AppCompatActivity implements SwipeRefresh
                         return;
                     }
                     RepositoryProvider.provideDataRepository().uploadDocument(dealId, myFile)
+                            .doAfterTerminate(() -> {
+                                init();
+                            })
                             .subscribe(msg -> {
                                         Timber.d(msg.toString());
                                     },

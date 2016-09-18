@@ -15,6 +15,7 @@ import ru.innopolis.yorsogettingxbox.repository.network.ServiceFactory;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 public class OnlineDataRepository implements DataRepository {
 
@@ -47,11 +48,10 @@ public class OnlineDataRepository implements DataRepository {
     public Observable<DocumentsResponse> uploadDocument(int dealId, File file) {
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         MultipartBody.Part multipartBody = MultipartBody.Part.createFormData("document", file.getName(), requestFile);
+        Timber.d("Everything ok");
         return ServiceFactory.getDocumentsApiService()
                 .upload(dealId, multipartBody)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
-
-
 }

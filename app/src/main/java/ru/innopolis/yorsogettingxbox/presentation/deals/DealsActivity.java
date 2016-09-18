@@ -47,7 +47,7 @@ public class DealsActivity extends AppCompatActivity
         setupRecyclerLayout();
         init();
 
-        swipeRefreshDeals.setColorSchemeResources(R.color.primary_light, R.color.primary, R.color.primary_dark, R.color.accent);
+        swipeRefreshDeals.setColorSchemeResources(R.color.primary, R.color.primary_dark, R.color.accent);
         swipeRefreshDeals.setOnRefreshListener(this);
     }
 
