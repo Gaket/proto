@@ -16,6 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.innopolis.yorsogettingxbox.R;
 import ru.innopolis.yorsogettingxbox.models.Document;
+import ru.innopolis.yorsogettingxbox.models.SignInfoEntity;
 
 public class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.DocumentViewHolder> {
 
@@ -57,7 +58,13 @@ public class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.Docu
     public void setDocuments(List<Document> newDocuments) {
         documents = newDocuments;
         for (Document document : newDocuments) {
-//            document.
+            int number = 0;
+            for (SignInfoEntity entity : document.getSignInfo()) {
+                if (entity.isSigned) {
+                    number ++;
+                }
+            }
+            document.setPercentDone(number / document.getSignInfo().size());
         }
         notifyDataSetChanged();
     }
