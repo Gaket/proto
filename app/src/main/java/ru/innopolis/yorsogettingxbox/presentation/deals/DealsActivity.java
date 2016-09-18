@@ -12,6 +12,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -73,6 +75,7 @@ public class DealsActivity extends AppCompatActivity
                     }
                 }, (t) -> {
                     Timber.e(t);
+                    dealsAdapter.setDeals(new ArrayList<>());
                     findViewById(R.id.view_nothing_to_show).setVisibility(View.VISIBLE);
                 });
     }

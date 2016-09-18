@@ -5,20 +5,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".presentation.documents.DocumentsActivity"
     tools:showIn="@layout/activity_documents"
-    android:orientation="vertical"
     >
 
     <TextView
         android:id="@+id/view_nothing_to_show"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:text="There are no active documents"
         android:padding="@dimen/activity_horizontal_margin"
+        android:text="There are no active documents"
         android:textSize="@dimen/font_big"
+        android:visibility="gone"
         />
 
     <android.support.v4.widget.SwipeRefreshLayout

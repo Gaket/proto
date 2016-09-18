@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -79,6 +80,7 @@ public class DocumentsActivity extends AppCompatActivity implements SwipeRefresh
                     }
                 }, (t) -> {
                     Timber.e(t);
+                    adapter.setDocuments(new ArrayList<>());
                     findViewById(R.id.view_nothing_to_show).setVisibility(View.VISIBLE);
                 });
     }
