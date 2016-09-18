@@ -16,4 +16,6 @@ public interface DataRepository {
     Observable<Deal> putDeal(Deal deal);
 
     Observable<List<Document>> getDocuments(int dealId);
+
+//    Observable<> getDocuments(int dealId);
 }

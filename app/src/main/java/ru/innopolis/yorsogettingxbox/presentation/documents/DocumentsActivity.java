@@ -13,19 +13,28 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import ru.innopolis.yorsogettingxbox.R;
-import ru.innopolis.yorsogettingxbox.presentation.common.DividerItemDecoration;
 import ru.innopolis.yorsogettingxbox.models.Document;
+import ru.innopolis.yorsogettingxbox.presentation.common.DividerItemDecoration;
+import ru.innopolis.yorsogettingxbox.repository.FileUtils;
+import ru.innopolis.yorsogettingxbox.repository.network.ServiceFactory;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 public class DocumentsActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
-    private static final int PICK_FILE = 1;
+    private static final int PICK_FILE_REQUEST_CODE = 1;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.recycler_documents)
@@ -66,17 +75,46 @@ public class DocumentsActivity extends AppCompatActivity implements SwipeRefresh
 
     @OnClick(R.id.fab)
     void addDocument(View view) {
-        Intent sf = new Intent(Intent.ACTION_GET_CONTENT);
-        Uri uri = Uri.parse("/");
-        sf.setDataAndType(uri, "*/*");
-        startActivityForResult(Intent.createChooser(sf, "select file"), PICK_FILE);
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        try {
+            startActivityForResult(
+                    Intent.createChooser(intent, "Select a File to Upload"), PICK_FILE_REQUEST_CODE);
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(this, "Please install a File Manager.",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        String filePath = data.getDataString();
 
-        Toast.makeText(this, " something" + filePath ,Toast.LENGTH_LONG).show();
+        switch (requestCode) {
+            case PICK_FILE_REQUEST_CODE:
+                if (resultCode == RESULT_OK) {
+                    Uri uri = data.getData();
+                    File myFile = FileUtils.getFile(this, uri);
+
+                    if (myFile == null) {
+                        Timber.e("File is null");
+                        return;
+                    }
+                    RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), myFile);
+                    MultipartBody.Part multipartBody = MultipartBody.Part.createFormData("document", myFile.getName(), requestFile);
+                    ServiceFactory.getDocumentsApiService().upload(dealId, multipartBody)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(msg -> {
+                                        Timber.d(msg.toString());
+                                    },
+                                    Timber::e);
+                }
+                break;
+            default:
+                Timber.e("Unexpected request code: %s", requestCode);
+                break;
+        }
     }
 
     @Override

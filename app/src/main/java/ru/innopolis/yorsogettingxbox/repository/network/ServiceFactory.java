@@ -11,7 +11,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ApiFactory {
+public class ServiceFactory {
 
     private static OkHttpClient sClient;
 
@@ -20,14 +20,14 @@ public class ApiFactory {
 
     public static final String API_ENDPOINT = "http://we-need-xbox.azurewebsites.net/api/";
 
-    private ApiFactory() {
+    private ServiceFactory() {
     }
 
     @NonNull
     public static DocumentsApi getDocumentsApiService() {
         DocumentsApi service = sDocumentsService;
         if (service == null) {
-            synchronized (ApiFactory.class) {
+            synchronized (ServiceFactory.class) {
                 service = sDocumentsService;
                 if (service == null) {
                     service = sDocumentsService = buildRetrofit().create(DocumentsApi.class);
@@ -41,7 +41,7 @@ public class ApiFactory {
     public static DealsApi getDealsApiService() {
         DealsApi service = sDealsService;
         if (service == null) {
-            synchronized (ApiFactory.class) {
+            synchronized (ServiceFactory.class) {
                 service = sDealsService;
                 if (service == null) {
                     service = sDealsService = buildRetrofit().create(DealsApi.class);
@@ -77,7 +77,7 @@ public class ApiFactory {
     private static OkHttpClient getClient() {
         OkHttpClient client = sClient;
         if (client == null) {
-            synchronized (ApiFactory.class) {
+            synchronized (ServiceFactory.class) {
                 client = sClient;
                 if (client == null) {
                     client = sClient = buildClient();
