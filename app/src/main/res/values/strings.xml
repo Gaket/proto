@@ -7,4 +7,9 @@
     <string name="text_overall_status">Overall status</string>
     <string name="text_in_blockchain">In blockchain</string>
     <string name="text_not_in_bllockchain">Not in blockchain yet</string>
+
+    //AddingDealActivity
+    <string name="submit">submit data</string>
+    <string name="prompt_about_Title">Here will be Title</string>
+    <string name="prompt_about_Description">Here will be Description</string>
 </resources>

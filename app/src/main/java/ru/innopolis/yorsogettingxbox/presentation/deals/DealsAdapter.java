@@ -58,6 +58,12 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.DealsViewHol
         notifyDataSetChanged();
     }
 
+    public void addDeal(Deal deal){
+        deals.add(deal);
+        notifyDataSetChanged();
+
+//        notifyItemInserted(deals.size()-1);
+    }
     class DealsViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.view_deals_name)
         TextView viewDealsName;
