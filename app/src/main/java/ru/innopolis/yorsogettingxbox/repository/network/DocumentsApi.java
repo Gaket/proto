@@ -13,8 +13,8 @@ import ru.innopolis.yorsogettingxbox.models.DocumentsResponse;
 import rx.Observable;
 
 public interface DocumentsApi {
-    @GET("documents")
-    Observable<List<Document>> documents();
+    @GET("deals/{id}/documents")
+    Observable<List<Document>> documents(@Path("id") int id);
 
     @Multipart
     @POST("deals/{id}/documents")

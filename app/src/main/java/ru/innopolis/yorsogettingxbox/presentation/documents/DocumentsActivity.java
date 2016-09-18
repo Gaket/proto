@@ -14,8 +14,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,7 +25,7 @@ import ru.innopolis.yorsogettingxbox.repository.FileUtils;
 import ru.innopolis.yorsogettingxbox.repository.RepositoryProvider;
 import timber.log.Timber;
 
-public class DocumentsActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class DocumentsActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, DocumentsAdapter.OnItemClickListener {
 
     private static final int PICK_FILE_REQUEST_CODE = 1;
     @BindView(R.id.toolbar)
@@ -48,20 +46,13 @@ public class DocumentsActivity extends AppCompatActivity implements SwipeRefresh
         setContentView(R.layout.activity_documents);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         init();
 
-        List<Document> documents = new ArrayList<Document>() {
-            {
-                add(new Document("Договор.pdf", true, 70));
-                add(new Document("Свидетельство.jpg", true, 100));
-                add(new Document("Очень важная бумажка.someType", false, 20));
-            }
-        };
+        swipeRefreshDocuments.setColorSchemeResources(R.color.primary, R.color.primary_dark, R.color.accent);
 
-        swipeRefreshDocuments.setColorSchemeResources(R.color.primary_light, R.color.primary, R.color.primary_dark, R.color.accent);
-
-        adapter = new DocumentsAdapter(this, documents);
+        adapter = new DocumentsAdapter(this, this);
         recyclerDocuments.setAdapter(adapter);
         recyclerDocuments.setLayoutManager(new LinearLayoutManager(this));
         recyclerDocuments.setItemAnimator(new DefaultItemAnimator());
@@ -71,13 +62,13 @@ public class DocumentsActivity extends AppCompatActivity implements SwipeRefresh
     }
 
     private void init() {
-//        RepositoryProvider.provideDataRepository().getDocuments(dealId)
-//                .doOnSubscribe(() -> swipeRefreshDocuments.setRefreshing(true))
-//                .doAfterTerminate(() -> swipeRefreshDocuments.setRefreshing(false))
-//                .subscribe(docAdapter::setDeals, Timber::e);
-//
+        RepositoryProvider.provideDataRepository().getDocuments(dealId)
+                .doOnSubscribe(() -> swipeRefreshDocuments.setRefreshing(true))
+                .doAfterTerminate(() -> swipeRefreshDocuments.setRefreshing(false))
+                .subscribe(documents -> {
+                    adapter.setDocuments(documents);
+                }, Timber::e);
     }
-
 
     @OnClick(R.id.fab)
     void addDocument(View view) {
@@ -101,12 +92,14 @@ public class DocumentsActivity extends AppCompatActivity implements SwipeRefresh
                 if (resultCode == RESULT_OK) {
                     Uri uri = data.getData();
                     File myFile = FileUtils.getFile(this, uri);
-
                     if (myFile == null) {
                         Timber.e("File is null");
                         return;
                     }
                     RepositoryProvider.provideDataRepository().uploadDocument(dealId, myFile)
+                            .doAfterTerminate(() -> {
+                                init();
+                            })
                             .subscribe(msg -> {
                                         Timber.d(msg.toString());
                                     },
@@ -116,12 +109,20 @@ public class DocumentsActivity extends AppCompatActivity implements SwipeRefresh
             default:
                 Timber.e("Unexpected request code: %s", requestCode);
                 break;
+
         }
+
     }
 
     @Override
     public void onRefresh() {
-        Toast.makeText(this, "Documents info updated", Toast.LENGTH_SHORT).show();
-        swipeRefreshDocuments.setRefreshing(false);
+        init();
+    }
+
+    @Override
+    public void onItemClick(Document item) {
+//        Intent intent = new Intent(this, DocumentSignersActivity.class);
+//        intent.putExtra("documentId", item.getId());
+//        startActivity(intent);
     }
 }
