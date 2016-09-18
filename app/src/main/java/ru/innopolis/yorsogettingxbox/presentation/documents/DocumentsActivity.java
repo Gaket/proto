@@ -20,16 +20,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import ru.innopolis.yorsogettingxbox.R;
 import ru.innopolis.yorsogettingxbox.models.Document;
 import ru.innopolis.yorsogettingxbox.presentation.common.DividerItemDecoration;
 import ru.innopolis.yorsogettingxbox.repository.FileUtils;
-import ru.innopolis.yorsogettingxbox.repository.network.ServiceFactory;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import ru.innopolis.yorsogettingxbox.repository.RepositoryProvider;
 import timber.log.Timber;
 
 public class DocumentsActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
@@ -45,6 +40,7 @@ public class DocumentsActivity extends AppCompatActivity implements SwipeRefresh
     FloatingActionButton fab;
 
     private int dealId = 1;
+    private DocumentsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +49,7 @@ public class DocumentsActivity extends AppCompatActivity implements SwipeRefresh
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
+        init();
 
         List<Document> documents = new ArrayList<Document>() {
             {
@@ -62,14 +59,23 @@ public class DocumentsActivity extends AppCompatActivity implements SwipeRefresh
             }
         };
 
-        swipeRefreshDocuments.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent);
+        swipeRefreshDocuments.setColorSchemeResources(R.color.primary_light, R.color.primary, R.color.primary_dark, R.color.accent);
 
-        recyclerDocuments.setAdapter(new DocumentsAdapter(this, documents));
+        adapter = new DocumentsAdapter(this, documents);
+        recyclerDocuments.setAdapter(adapter);
         recyclerDocuments.setLayoutManager(new LinearLayoutManager(this));
         recyclerDocuments.setItemAnimator(new DefaultItemAnimator());
         recyclerDocuments.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
 
         swipeRefreshDocuments.setOnRefreshListener(this);
+    }
+
+    private void init() {
+//        RepositoryProvider.provideDataRepository().getDocuments(dealId)
+//                .doOnSubscribe(() -> swipeRefreshDocuments.setRefreshing(true))
+//                .doAfterTerminate(() -> swipeRefreshDocuments.setRefreshing(false))
+//                .subscribe(docAdapter::setDeals, Timber::e);
+//
     }
 
 
@@ -100,11 +106,7 @@ public class DocumentsActivity extends AppCompatActivity implements SwipeRefresh
                         Timber.e("File is null");
                         return;
                     }
-                    RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), myFile);
-                    MultipartBody.Part multipartBody = MultipartBody.Part.createFormData("document", myFile.getName(), requestFile);
-                    ServiceFactory.getDocumentsApiService().upload(dealId, multipartBody)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
+                    RepositoryProvider.provideDataRepository().uploadDocument(dealId, myFile)
                             .subscribe(msg -> {
                                         Timber.d(msg.toString());
                                     },

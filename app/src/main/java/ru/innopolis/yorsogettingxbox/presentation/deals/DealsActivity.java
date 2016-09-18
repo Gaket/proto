@@ -9,21 +9,15 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.zip.Inflater;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ru.innopolis.yorsogettingxbox.R;
-import ru.innopolis.yorsogettingxbox.presentation.common.DividerItemDecoration;
 import ru.innopolis.yorsogettingxbox.models.Deal;
+import ru.innopolis.yorsogettingxbox.presentation.common.DividerItemDecoration;
 import ru.innopolis.yorsogettingxbox.presentation.documents.DocumentsActivity;
 import ru.innopolis.yorsogettingxbox.presentation.newdeal.AddingDealActivity;
 import ru.innopolis.yorsogettingxbox.repository.RepositoryProvider;
@@ -53,7 +47,7 @@ public class DealsActivity extends AppCompatActivity
         setupRecyclerLayout();
         init();
 
-        swipeRefreshDeals.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent);
+        swipeRefreshDeals.setColorSchemeResources(R.color.primary_light, R.color.primary, R.color.primary_dark, R.color.accent);
         swipeRefreshDeals.setOnRefreshListener(this);
     }
 

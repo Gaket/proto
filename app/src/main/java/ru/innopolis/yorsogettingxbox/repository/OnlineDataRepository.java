@@ -2,10 +2,15 @@ package ru.innopolis.yorsogettingxbox.repository;
 
 import android.support.annotation.NonNull;
 
+import java.io.File;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import ru.innopolis.yorsogettingxbox.models.Deal;
 import ru.innopolis.yorsogettingxbox.models.Document;
+import ru.innopolis.yorsogettingxbox.models.DocumentsResponse;
 import ru.innopolis.yorsogettingxbox.repository.network.ServiceFactory;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -34,4 +39,17 @@ public class OnlineDataRepository implements DataRepository {
     public Observable<List<Document>> getDocuments(int dealId) {
         return null;
     }
+
+    @Override
+    public Observable<DocumentsResponse> uploadDocument(int dealId, File file) {
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        MultipartBody.Part multipartBody = MultipartBody.Part.createFormData("document", file.getName(), requestFile);
+        return ServiceFactory.getDocumentsApiService()
+                .upload(dealId, multipartBody)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
+    }
+
+
 }
