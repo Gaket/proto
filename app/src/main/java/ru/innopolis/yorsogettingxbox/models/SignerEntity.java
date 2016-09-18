@@ -6,6 +6,10 @@ public class SignerEntity {
     public String privateKey;
     public String publicKey;
 
+    public SignerEntity(String name){
+        this.name = name;
+    }
+
     public int getId() {
         return id;
     }

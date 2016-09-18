@@ -12,4 +12,27 @@
     <string name="submit">submit data</string>
     <string name="prompt_about_Title">Here will be Title</string>
     <string name="prompt_about_Description">Here will be Description</string>
+
+    //Signers
+    <string name="text_signer">Signer</string>
+
+    <array name="titles">
+        <item> Bying some fruit</item>
+        <item> Bying some drinks</item>
+        <item> delivery Agreement</item>
+        <item> Certificate</item>
+        <item> Transaction №1212</item>
+        <item> Contract</item>
+        <item> Application for contract</item>
+    </array>
+
+    <array name="desctription">
+        <item>We would to buy any froot</item>
+        <item>We would to buy any froot</item>
+        <item>We would to buy any froot</item>
+        <item>We would to buy any drinks</item>
+        <item>We would to transfer to you, without</item>
+        <item>We would to send you the paper about our transaction</item>
+        <item>We would to buy any froot</item>
+    </array>
 </resources>
