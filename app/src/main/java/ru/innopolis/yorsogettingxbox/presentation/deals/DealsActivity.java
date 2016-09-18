@@ -63,7 +63,7 @@ public class DealsActivity extends AppCompatActivity
         RepositoryProvider.provideDataRepository().getDeals()
                 .doOnSubscribe(() -> swipeRefreshDeals.setRefreshing(true))
                 .doAfterTerminate(() -> swipeRefreshDeals.setRefreshing(false))
-                .subscribe((deals) -> Timber.d("ok %s", deals.toString()), (t) -> {
+                .subscribe(dealsAdapter::setDeals, (t) -> {
                     Timber.e(t);
                 });
     }

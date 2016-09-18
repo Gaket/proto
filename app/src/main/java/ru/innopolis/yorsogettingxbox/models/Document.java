@@ -1,11 +1,13 @@
 package ru.innopolis.yorsogettingxbox.models;
 
+import java.util.List;
+
 public class Document {
 
     private int id;
     private String name;
     private String link;
-    private SignInfoEntity signInfo;
+    private List<SignInfoEntity> signInfo;
     private boolean chainStatus;
     private int percentDone;
     private String hash;
@@ -56,11 +58,11 @@ public class Document {
         this.link = link;
     }
 
-    public SignInfoEntity getSignInfo() {
+    public List<SignInfoEntity> getSignInfo() {
         return signInfo;
     }
 
-    public void setSignInfo(SignInfoEntity signInfo) {
+    public void setSignInfo(List<SignInfoEntity> signInfo) {
         this.signInfo = signInfo;
     }
 
