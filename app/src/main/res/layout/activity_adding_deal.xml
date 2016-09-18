@@ -19,7 +19,6 @@
         android:layout_marginRight="20dp"
         android:text="@string/prompt_about_Title"
         android:textSize="@dimen/font_big"
-        android:labelFor="@id/new_title"
         />
 
     <EditText
@@ -28,20 +27,19 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:textSize="@dimen/font_big"
         android:inputType="textMultiLine"
         android:lines="2"
+        android:textSize="@dimen/font_big"
         />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="14dp"
         android:layout_marginRight="20dp"
+        android:layout_marginTop="14dp"
         android:text="@string/prompt_about_Description"
         android:textSize="@dimen/font_big"
-        android:labelFor="@id/new_description"
         />
 
     <EditText
@@ -51,7 +49,8 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:inputType="textMultiLine"
-        android:lines="5"
+        android:layout_gravity="left|top"
+        android:lines="3"
         android:textSize="@dimen/font_big"
         />
 
