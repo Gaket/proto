@@ -47,8 +47,11 @@ public class OnlineDataRepository implements DataRepository {
     public Observable<DocumentsResponse> uploadDocument(int dealId, File file) {
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         MultipartBody.Part multipartBody = MultipartBody.Part.createFormData("document", file.getName(), requestFile);
+        String descriptionString = "This is description speaking";
+        RequestBody description = RequestBody.create(MediaType.parse("multipart/form-data"), descriptionString);
+
         return ServiceFactory.getDocumentsApiService()
-                .upload(dealId, multipartBody)
+                .upload(dealId, description, multipartBody)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

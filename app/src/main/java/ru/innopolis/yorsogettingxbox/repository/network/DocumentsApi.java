@@ -1,6 +1,7 @@
 package ru.innopolis.yorsogettingxbox.repository.network;
 
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -16,5 +17,5 @@ public interface DocumentsApi {
 
     @Multipart
     @POST("deals/{id}/documents")
-    Observable<DocumentsResponse> upload(@Path("id") int id, @Part MultipartBody.Part file);
+    Observable<DocumentsResponse> upload(@Path("id") int id, @Part RequestBody description, @Part MultipartBody.Part file);
 }
