@@ -51,8 +51,8 @@ public class DocumentSignersAdapter extends RecyclerView.Adapter<DocumentSigners
         return signers.size();
     }
 
-    public void setSigner(List<SignInfoEntity> newSigner){
-        signers = newSigner;
+    public void setSigner(List<SignInfoEntity> signers){
+        this.signers = signers;
         notifyDataSetChanged();
     }
 
