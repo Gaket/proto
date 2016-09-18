@@ -12,5 +12,5 @@
     <!--Standard spacing-->
     <dimen name="font_small">8sp</dimen>
     <dimen name="font_normal">12sp</dimen>
-    <dimen name="font_big">16sp</dimen>
+    <dimen name="font_big">18sp</dimen>
 </resources>

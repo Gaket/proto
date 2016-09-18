@@ -5,6 +5,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/view_nothing_to_show"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:text="There are no active documents"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:textSize="@dimen/font_big"
+        />
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_signers"
         android:layout_width="match_parent"

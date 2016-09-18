@@ -4,14 +4,15 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/activity_vertical_margin">
+    android:paddingTop="@dimen/spacing_normal">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/view_deals_name"
         android:textColor="@android:color/black"
-        android:textSize="@dimen/font_big"/>
+        android:textSize="@dimen/font_big"
+        android:layout_marginBottom="@dimen/font_small"/>
 
     <TextView
         android:layout_width="match_parent"

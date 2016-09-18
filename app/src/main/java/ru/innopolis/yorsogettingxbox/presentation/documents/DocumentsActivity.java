@@ -71,8 +71,16 @@ public class DocumentsActivity extends AppCompatActivity implements SwipeRefresh
                 .doOnSubscribe(() -> swipeRefreshDocuments.setRefreshing(true))
                 .doAfterTerminate(() -> swipeRefreshDocuments.setRefreshing(false))
                 .subscribe(documents -> {
-                    adapter.setDocuments(documents);
-                }, Timber::e);
+                    if (documents.size() == 0) {
+                        findViewById(R.id.view_nothing_to_show).setVisibility(View.VISIBLE);
+                    } else {
+                        findViewById(R.id.view_nothing_to_show).setVisibility(View.GONE);
+                        adapter.setDocuments(documents);
+                    }
+                }, (t) -> {
+                    Timber.e(t);
+                    findViewById(R.id.view_nothing_to_show).setVisibility(View.VISIBLE);
+                });
     }
 
     @OnClick(R.id.fab)

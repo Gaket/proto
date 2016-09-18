@@ -38,7 +38,6 @@ public class DealsActivity extends AppCompatActivity
 
     DealsAdapter dealsAdapter;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,8 +64,16 @@ public class DealsActivity extends AppCompatActivity
         RepositoryProvider.provideDataRepository().getDeals()
                 .doOnSubscribe(() -> swipeRefreshDeals.setRefreshing(true))
                 .doAfterTerminate(() -> swipeRefreshDeals.setRefreshing(false))
-                .subscribe(dealsAdapter::setDeals, (t) -> {
+                .subscribe((newDeals) -> {
+                    if (newDeals.size() == 0) {
+                        findViewById(R.id.view_nothing_to_show).setVisibility(View.VISIBLE);
+                    } else {
+                        findViewById(R.id.view_nothing_to_show).setVisibility(View.GONE);
+                        dealsAdapter.setDeals(newDeals);
+                    }
+                }, (t) -> {
                     Timber.e(t);
+                    findViewById(R.id.view_nothing_to_show).setVisibility(View.VISIBLE);
                 });
     }
 

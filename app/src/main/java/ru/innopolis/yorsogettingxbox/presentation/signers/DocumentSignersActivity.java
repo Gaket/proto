@@ -7,8 +7,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -56,9 +56,16 @@ public class DocumentSignersActivity extends AppCompatActivity implements SwipeR
     @Override
     public void onRefresh() {
         init();
+        swipeRefreshSigners.setRefreshing(false);
     }
 
     private void init() {
-        List<SignInfoEntity> entities = new ArrayList<>();
+        List<SignInfoEntity> entities = document.getSignInfo();
+        docSignersAdapter.setSigner(entities);
+        if (entities.size() == 0) {
+            findViewById(R.id.view_nothing_to_show).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.view_nothing_to_show).setVisibility(View.GONE);
+        }
     }
 }
